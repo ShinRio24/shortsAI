@@ -22,11 +22,10 @@ def addTextBlock(
     captionFont = "fonts/Oswald-VariableFont_wght.ttf",
     captionPosition = ("center", 1400)
 ):
-    addedImage = ImageClip(videoPath)
     audio = AudioFileClip(audioPath)
+    addedImage = ImageClip(videoPath)
     video_width, video_height = addedImage.size
     target_text_width = int(video_width * 0.8)
-    addedImage = addedImage.with_duration(audio.duration)
     #https://fonts.google.com/
 
     titleClip = TextClip(
@@ -53,13 +52,14 @@ def addTextBlock(
         duration = audio.duration
     ).with_position(captionPosition).with_start(0)
 
-    canvas_width = 1080 
+    canvas_width = 1080
     canvas_height = 1920
     background = ColorClip(size=(canvas_width, canvas_height), color=(0, 0, 0), duration=audio.duration)
-    addedImage.with_position('center')
+    addedImage = addedImage.with_duration(audio.duration)
+
+    addedImage.resized(height=500).with_position('center')
 
     final_clip = CompositeVideoClip([background, addedImage, titleClip, captionClip])
-
     final_clip = final_clip.with_audio(audio)
     final_clip.write_videofile(outputPath, codec="libx264", fps= 30)
 
