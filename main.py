@@ -86,11 +86,10 @@ def generate_youtube_short_video(theme):
 
     # Step 1: Generate Script for the YouTube Short Video using the new method
     statements,imgFormat = generate_video_script(theme)
-    print(imgFormat,'tttststststs')
     if not statements:
         print("Script generation failed or no statements were parsed. Aborting video component generation.")
         return
-
+    print(statements,imgFormat,'aaaaaaa')
     #print("\n--- Step 2: Processing each statement (generating image and audio)... ---")
     for i, statement in enumerate(statements):
         print(f"\n--- Processing Statement {i+1} of {len(statements)}: \"{statement}\" ---")
@@ -100,7 +99,10 @@ def generate_youtube_short_video(theme):
         if imgFormat[i]=='0':
             genIMG(statement,i)
         else:
+
+            print(statement, 'bbbbb')
             imgSearch(statement,i)
+            
 
         # Generate Audio for the current statement
         audio_generation_contents = statement
@@ -128,4 +130,4 @@ if __name__ =='__main__':
     #combineMedia(5)
 
     # Call the main video generation method. You can change the theme.
-    generate_youtube_short_video("largest companies in the world")
+    generate_youtube_short_video("世界のトップ3大企業")

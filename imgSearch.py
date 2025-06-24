@@ -68,10 +68,7 @@ def imgSearch(query,num, num_results=1, start_index=1):
         list: A list of dictionaries, where each dictionary represents an image result.
               Returns an empty list if no images are found or an error occurs.
     """
-    
-    if num_results > 10:
-        print("Warning: Google Custom Search API returns a maximum of 10 results per request for images.")
-        num_results = 10
+
 
     params = {
         'q': query,
