@@ -37,7 +37,7 @@ The script should be in Japanese and structured for a fast-paced video, designed
 Please format the output as a list. before each statement, add a 1 or 0. If the statement is about a real, existing place, human or thing, add a 1. (this means the image going with it will be a real photo) if the image is talking about an act, concept, make it 0. (this mean the image going with it will be ai generated). split the number and statement with a period
 
 Here's the required structure for the script:
-
+If the theme is asking for a ranking, (such as top 3 companies) make sure to clearly rank the choices
 Hook: Start with a captivating statement or quick visual idea that immediately grabs attention. This should be a very short, impactful phrase.
 Introduction: Briefly set the scene or introduce the topic, drawing the viewer further in.
 Main Points/Narrative: Develop the core content through a series of distinct, action-oriented sentences or short phrases. Each point should suggest a quick visual cut and contribute to the overall story or message. Focus on clear, impactful imagery.
@@ -82,16 +82,16 @@ def generate_youtube_short_video(theme):
     generates an image and narrates each statement of the script.
     The generated images and audio files are saved locally.
     """
-    print(f"Starting YouTube Short Video component generation for theme: '{theme}'")
+    #print(f"Starting YouTube Short Video component generation for theme: '{theme}'")
 
     # Step 1: Generate Script for the YouTube Short Video using the new method
     statements,imgFormat = generate_video_script(theme)
-
+    print(imgFormat,'tttststststs')
     if not statements:
         print("Script generation failed or no statements were parsed. Aborting video component generation.")
         return
 
-    print("\n--- Step 2: Processing each statement (generating image and audio)... ---")
+    #print("\n--- Step 2: Processing each statement (generating image and audio)... ---")
     for i, statement in enumerate(statements):
         print(f"\n--- Processing Statement {i+1} of {len(statements)}: \"{statement}\" ---")
 
@@ -107,10 +107,19 @@ def generate_youtube_short_video(theme):
         #print("  Generating audio...")
         genAUDIO(audio_generation_contents,i)
 
-    print(statements)
-    combineMedia(statements)
-    print("\n--- All YouTube Short Video components (images and audio files) generated successfully. ---")
-    print("Reminder: Stitching these components into a single video file requires external video editing software.")
+    #print(statements)
+
+    gemini_client = genai.Client(api_key=GEMINI_API_KEY)
+    response = gemini_client.models.generate_content(
+    model="gemini-2.5-flash",
+    contents=f"""convert the following theme: {theme} into a short, interesting japanese title. Do not add any additional text except the new title.
+    example:
+    input: Top 3 companies in the world
+    output: 世界のトップ3企業
+    """
+    )
+    print(response.text, "this is the title ")
+    combineMedia(response.text, statements)
 
 if __name__ =='__main__':
     # The user's original line is commented out to avoid immediate image generation on load,
@@ -119,4 +128,4 @@ if __name__ =='__main__':
     #combineMedia(5)
 
     # Call the main video generation method. You can change the theme.
-    generate_youtube_short_video("top 1 public colleges america")
+    generate_youtube_short_video("largest companies in the world")

@@ -43,4 +43,5 @@ def genIMG(content, num):
             image.save('media/img-{}.png'.format(num))
             #image.show()
 
-genIMG('Visualizing: a student wakes up',-1)
+if __name__ == '__main__':
+    genIMG('Visualizing: a student wakes up',-1)

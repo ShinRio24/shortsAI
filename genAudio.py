@@ -28,10 +28,21 @@ def genLib(context,num):
     from melo.api import TTS
 
     # Speed is adjustable
-    speed = 1.5
+    speed = 1.2
     device = 'cpu' # or cuda:0
 
     text = context
+
+    client = genai.Client(api_key=TTS_API_KEY)
+    response = client.models.generate_content(
+    model="gemini-2.5-flash",
+    contents=f"""For the following script convert all of the english words into katagana. Do not change anything else, output exactly what is given to you with english words swapped: Here is the script: {text}
+    example:
+    input: こんにちわgoogle
+    output: こんにちわグーグル
+    """
+    )
+    text= response.text
     model = TTS(language='JP', device=device)
     speaker_ids = model.hps.data.spk2id
 
@@ -90,4 +101,4 @@ def genWGoogle(context,num):
 
 
 if __name__ == '__main__':
-    genAUDIO("彼は毎朝ジョギングをして体を健康に保っています。",-1)
+    genAUDIO("彼は毎朝ジョギングgoogleをして体を健康に保っています。",-1)

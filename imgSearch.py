@@ -131,8 +131,8 @@ if __name__ == "__main__":
         for i, image in enumerate(images):
 
             print(f"\n--- Image {i+1} ---")
-            print(f"Title: {image.get('title', 'N/A')}")
-            print(f"Link: {image.get('link', 'N/A')}")
+            #print(f"Title: {image.get('title', 'N/A')}")
+            #print(f"Link: {image.get('link', 'N/A')}")
             downloaded_file = download_image(image.get('title', 'N/A'))
     else:
         print(f"No images found for '{search_query}'.")
